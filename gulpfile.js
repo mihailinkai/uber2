@@ -23,8 +23,11 @@ gulp.task('server', function() {
 
 gulp.task('styles', function() {
     return gulp.src("src/sass/*.+(scss|sass)")  /* берем файлы по этому адресу */
-            .pipe(sass()) /* компилируем в сасс */
+            .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError)) /* компилируем в сасс */
             .pipe(gulp.dest("src/css")) /* сохраняем полу-шееся сюда */
             .pipe(browserSync.stream());  /*  после обновленя файла sass стр обновится */
-})
+});
 
+//  объединяем задачи вместе, чтобы 1ой командой запустить весь функционал
+
+gulp.task('default', gulp.parallel('server', 'styles'));
