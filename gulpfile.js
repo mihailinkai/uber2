@@ -28,6 +28,19 @@ gulp.task('styles', function() {
             .pipe(browserSync.stream());  /*  после обновленя файла sass стр обновится */
 });
 
+
+// а эта задача будет следить за изменениями 
+
+gulp.task('watch', function() {
+    gulp.watch("src/sass/*.+(scss|sass)", gulp.parallel("styles"));
+/*     галп следит за изме всех файлов
+    ,когда они изменятся и сохранятся,запустится задача стайлс, когда задача выполнится, она 
+    обновит наш браузер */
+    gulp.watch("src/*.html").on("change", browserSync.reload);
+
+});
+
+
 //  объединяем задачи вместе, чтобы 1ой командой запустить весь функционал
 
-gulp.task('default', gulp.parallel('server', 'styles'));
+gulp.task('default', gulp.parallel('watch', 'server', 'styles'));
